@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analytics — Racing Overlay</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  canvas.chart { width: 100%; height: 260px; background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--radius); }
+  .lap-row { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); }
+  .lap-row select.role { width: 90px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p><a href="index.html">&larr; Hub</a></p>
+  <div class="eyebrow">Analytics</div>
+  <h1 style="font-size:32px;">Session review</h1>
+
+  <div class="panel">
+    <label for="trackSelect">Track</label>
+    <select id="trackSelect"></select>
+  </div>
+
+  <div class="panel">
+    <h3>Laps</h3>
+    <div id="lapRows"></div>
+    <div class="row" style="margin-top:12px;">
+      <button class="secondary" id="exportAllBtn">Export all laps (JSON)</button>
+      <input type="file" id="importFile" accept=".json" style="display:none;">
+      <button class="secondary" id="importBtn">Import laps</button>
+    </div>
+    <p class="footer-note">Pick "A" on one lap and "B" on another to compare. Defaults to fastest lap for A.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Speed vs distance</h3>
+    <canvas id="speedChart" class="chart" width="900" height="260"></canvas>
+  </div>
+
+  <div class="panel">
+    <h3>Delta (B vs A) over distance</h3>
+    <canvas id="deltaChart" class="chart" width="900" height="260"></canvas>
+  </div>
+</div>
+
+<script src="js/db.js"></script>
+<script src="js/room.js"></script>
+<script src="js/analytics.js"></script>
+</body>
+</html>

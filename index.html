@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Racing Overlay</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Free · Browser-only · No install</div>
+  <h1 style="font-size:40px;">Racing Overlay</h1>
+  <p style="color:var(--text-dim); max-width:60ch;">
+    Map a track, record laps with your phone's GPS, and stream live speed,
+    delta and sector times straight into OBS. Everything runs in the
+    browser — nothing to install in the car.
+  </p>
+
+  <div class="panel">
+    <label for="room">Session room code</label>
+    <div class="row">
+      <input type="text" id="room" placeholder="e.g. rally-2026" style="flex:1;">
+      <button id="saveRoom">Save</button>
+    </div>
+    <p class="footer-note" style="margin-top:10px;">
+      Use the <b>same room code</b> on the phone (Recorder) and the PC
+      (Overlay) so they talk to each other. Anything else on this page
+      works without a room code.
+    </p>
+  </div>
+
+  <div class="grid-2">
+    <a class="card-link" href="editor.html">
+      <div class="eyebrow" style="margin-bottom:8px;">01 — In the car</div>
+      <h3>Track Editor</h3>
+      <p>Drive a lap to auto-map the track, then place sector splits and start/finish.</p>
+    </a>
+    <a class="card-link" href="recorder.html">
+      <div class="eyebrow" style="margin-bottom:8px;">02 — In the car</div>
+      <h3>Recorder</h3>
+      <p>Live speed, delta and sector timing on your phone. Streams to the overlay.</p>
+    </a>
+    <a class="card-link" href="overlay.html">
+      <div class="eyebrow" style="margin-bottom:8px;">03 — OBS / PC</div>
+      <h3>Overlay</h3>
+      <p>Transparent live overlay — add as a Browser Source in OBS.</p>
+    </a>
+    <a class="card-link" href="analytics.html">
+      <div class="eyebrow" style="margin-bottom:8px;">04 — After the session</div>
+      <h3>Analytics</h3>
+      <p>Compare laps, speed traces and sector times. Export/import as JSON.</p>
+    </a>
+  </div>
+
+  <p class="footer-note">
+    First time? Open <b>js/firebase-config.js</b> in this project and paste
+    in a free Firebase Realtime Database config — that's what carries the
+    live data from the phone to OBS. Full steps are in README.md.
+  </p>
+</div>
+<script src="js/room.js"></script>
+<script>
+  document.getElementById('room').value = Room.get();
+  document.getElementById('saveRoom').onclick = () => {
+    Room.set(document.getElementById('room').value);
+    alert('Room code saved on this device.');
+  };
+</script>
+</body>
+</html>

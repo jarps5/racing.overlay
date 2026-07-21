@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recorder — Racing Overlay</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body { user-select: none; }
+  .big-speed { font-size: 84px; line-height: 1; }
+  .delta.ahead { color: var(--green); }
+  .delta.behind { color: var(--red); }
+  .sector-strip { display:flex; gap:8px; margin-top:10px; flex-wrap: wrap; }
+  .sector-chip { padding:6px 10px; border-radius:4px; background:var(--panel-2); border:1px solid var(--line); font-family:'JetBrains Mono',monospace; font-size:13px; }
+  .sector-chip.ahead { border-color: var(--green); color: var(--green); }
+  .sector-chip.behind { border-color: var(--red); color: var(--red); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p><a href="index.html">&larr; Hub</a></p>
+  <div class="eyebrow">Recorder (keep this open on your phone, mounted in the car)</div>
+  <h1 style="font-size:32px;">Live timing</h1>
+
+  <div class="panel" id="setupPanel">
+    <label for="trackSelect">Track</label>
+    <select id="trackSelect"></select>
+    <div style="height:10px;"></div>
+    <label for="roomInput">Room code (leave empty to time locally only, no overlay link)</label>
+    <input type="text" id="roomInput" placeholder="e.g. rally-2026">
+    <div style="height:14px;"></div>
+    <button id="startSession">Start session</button>
+  </div>
+
+  <div class="panel" id="livePanel" style="display:none;">
+    <div class="row" style="justify-content:space-between;">
+      <span class="pill live" id="linkPill">recording</span>
+      <button class="danger" id="stopSession">Stop session</button>
+    </div>
+
+    <div class="row" style="margin-top:16px; align-items: flex-end; gap:32px;">
+      <div class="stat">
+        <div class="label">Speed</div>
+        <div class="value big-speed mono" id="speedVal">0</div>
+        <div class="label">km/h</div>
+      </div>
+      <div class="stat">
+        <div class="label">Delta vs best</div>
+        <div class="value mono delta" id="deltaVal">--.--</div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:20px;">
+      <div class="stat"><div class="label">Lap</div><div class="value mono" id="lapNum">0</div></div>
+      <div class="stat"><div class="label">Lap time</div><div class="value mono" id="lapTime">0:00.000</div></div>
+      <div class="stat"><div class="label">Best lap</div><div class="value mono" id="bestLapVal">--:--.---</div></div>
+      <div class="stat"><div class="label">GPS accuracy</div><div class="value mono" id="accVal">--</div></div>
+    </div>
+
+    <h3 style="margin-top:24px;">Sector splits (this lap)</h3>
+    <div class="sector-strip" id="sectorStrip"></div>
+
+    <h3 style="margin-top:24px;">Completed laps</h3>
+    <table id="lapTable"><thead><tr><th>Lap</th><th>Time</th><th>Delta to best</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/geo.js"></script>
+<script src="js/db.js"></script>
+<script src="js/room.js"></script>
+<script src="js/recorder.js"></script>
+</body>
+</html>

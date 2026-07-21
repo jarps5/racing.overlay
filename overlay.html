@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overlay — Racing Overlay</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* Transparent so OBS Browser Source shows only the widgets, not a box */
+  html, body { background: transparent; }
+
+  #setupPanel { max-width: 480px; margin: 40px auto; }
+
+  #overlayRoot {
+    display: none;
+    position: fixed;
+    left: 24px;
+    bottom: 24px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    width: 420px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .ov-panel {
+    background: rgba(11,13,16,0.82);
+    border: 1px solid rgba(38,43,51,0.9);
+    border-radius: 6px;
+    padding: 14px 18px;
+    backdrop-filter: blur(2px);
+  }
+
+  .ov-main { display:flex; align-items:flex-end; gap:24px; }
+  .ov-speed { font-size:56px; font-weight:700; color:#e8eaed; line-height:1; }
+  .ov-speed-unit { font-size:14px; color:#8a919c; text-transform:uppercase; letter-spacing:.1em; }
+
+  .ov-delta { font-size:34px; font-weight:700; transition: color 0.15s ease; }
+  .ov-delta.ahead { color:#21c567; }
+  .ov-delta.behind { color:#e4432c; }
+  .ov-delta.flash { animation: flash 0.4s ease; }
+  @keyframes flash { 0% { transform: scale(1.18); } 100% { transform: scale(1); } }
+
+  .ov-meta { display:flex; justify-content:space-between; font-size:12px; color:#8a919c; margin-top:6px; text-transform:uppercase; letter-spacing:.08em; }
+  .ov-meta b { color:#e8eaed; }
+
+  .ov-lights { display:flex; gap:6px; margin-top:10px; }
+  .ov-light { flex:1; height:6px; border-radius:3px; background:#262b33; transition: background 0.2s ease; }
+  .ov-light.hit-ahead { background:#21c567; }
+  .ov-light.hit-behind { background:#e4432c; }
+
+  .ov-map-wrap { position: fixed; top: 24px; right: 24px; width: 220px; height: 220px; }
+  #mapCanvas { width:100%; height:100%; background: rgba(11,13,16,0.82); border:1px solid rgba(38,43,51,0.9); border-radius:6px; }
+</style>
+</head>
+<body>
+  <div id="setupPanel" class="wrap">
+    <div class="eyebrow">Overlay setup</div>
+    <h1 style="font-size:28px;">Connect to a session</h1>
+    <div class="panel">
+      <label for="roomInput">Room code</label>
+      <input type="text" id="roomInput" placeholder="e.g. rally-2026">
+      <div style="height:14px;"></div>
+      <button id="connectBtn">Connect</button>
+      <p class="footer-note">Once connected, add this exact page URL as a Browser Source in OBS (width ~1000, height ~600, background transparent already handled).</p>
+    </div>
+  </div>
+
+  <div id="overlayRoot">
+    <div class="ov-panel">
+      <div class="ov-main">
+        <div>
+          <div class="ov-speed mono" id="ovSpeed">0</div>
+          <div class="ov-speed-unit">km/h</div>
+        </div>
+        <div class="ov-delta mono" id="ovDelta">--.--</div>
+      </div>
+      <div class="ov-lights" id="ovLights"></div>
+      <div class="ov-meta">
+        <span>LAP <b id="ovLap">0</b></span>
+        <span id="ovLapTime" class="mono">0:00.000</span>
+        <span id="ovTrackName">--</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ov-map-wrap" id="mapWrap" style="display:none;">
+    <canvas id="mapCanvas" width="220" height="220"></canvas>
+  </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/room.js"></script>
+<script src="js/overlay.js"></script>
+</body>
+</html>

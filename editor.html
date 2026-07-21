@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track Editor — Racing Overlay</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  #trackCanvas { width: 100%; height: 340px; background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--radius); touch-action: none; }
+  .sector-row { display:flex; gap:8px; align-items:center; padding:6px 0; border-bottom:1px solid var(--line); }
+  .sector-row input { width: 110px; }
+  .dot { width:10px; height:10px; border-radius:50%; background:var(--amber); flex-shrink:0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p><a href="index.html">&larr; Hub</a></p>
+  <div class="eyebrow">Track Editor</div>
+  <h1 style="font-size:32px;">Map a track</h1>
+
+  <div class="panel">
+    <h3>1. Existing tracks</h3>
+    <div id="trackList" style="margin-bottom:10px;"></div>
+    <input type="file" id="importFile" accept=".json" style="display:none;">
+    <div class="row">
+      <button class="secondary" id="importBtn">Import JSON</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>2. Record a new track</h3>
+    <p style="color:var(--text-dim);">Start this on lap 1, drive one full clean lap crossing your start line at both ends, then hit stop. Keep the phone somewhere with a clear sky view.</p>
+    <div class="row">
+      <button id="startRec">Start driving</button>
+      <button id="stopRec" class="secondary" disabled>Stop &amp; build track</button>
+      <span class="pill off" id="recStatus">idle</span>
+    </div>
+    <div class="row" style="margin-top:10px;">
+      <div class="stat"><div class="label">Points</div><div class="value mono" id="ptCount">0</div></div>
+      <div class="stat"><div class="label">Distance</div><div class="value mono" id="ptDist">0 m</div></div>
+      <div class="stat"><div class="label">GPS accuracy</div><div class="value mono" id="ptAcc">--</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="trackPanel" style="display:none;">
+    <h3>3. Sectors &amp; start/finish</h3>
+    <p style="color:var(--text-dim);">Click anywhere on the track outline to drop a sector split. Click a marker again to remove it. Fine-tune exact distance in the list below.</p>
+    <canvas id="trackCanvas" width="800" height="340"></canvas>
+    <div id="sectorList" style="margin-top:14px;"></div>
+    <div class="row" style="margin-top:14px;">
+      <input type="text" id="trackName" placeholder="Track name" style="max-width:260px;">
+      <button id="saveTrackBtn">Save track</button>
+      <button class="secondary" id="exportBtn">Export JSON</button>
+      <button class="danger" id="deleteBtn" style="display:none;">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/geo.js"></script>
+<script src="js/db.js"></script>
+<script src="js/room.js"></script>
+<script src="js/editor.js"></script>
+</body>
+</html>
