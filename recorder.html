@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recorder — Racing Overlay</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body { user-select: none; }
+  #dashboardMount { padding: 16px; }
+  .rec-topbar {
+    position: sticky; top: 0; z-index: 500;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 16px;
+    background: rgba(11,13,16,0.92);
+    border-bottom: 1px solid var(--line);
+  }
+  #lapTablePanel { margin: 16px; }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="setupPanel">
+  <p><a href="index.html">&larr; Hub</a></p>
+  <div class="eyebrow">Recorder (keep this open on your phone, mounted in the car)</div>
+  <h1 style="font-size:32px;">Live timing</h1>
+
+  <div class="panel">
+    <label for="trackSelect">Track</label>
+    <select id="trackSelect"></select>
+    <div style="height:10px;"></div>
+    <label for="roomInput">Room code (leave empty to time locally only, no overlay link)</label>
+    <input type="text" id="roomInput" placeholder="e.g. rally-2026">
+    <div style="height:14px;"></div>
+    <button id="startSession">Start session</button>
+  </div>
+</div>
+
+<div id="livePanel" style="display:none;">
+  <div class="rec-topbar">
+    <span class="pill live" id="linkPill">recording</span>
+    <button class="danger" id="stopSession">Stop session</button>
+  </div>
+  <div id="dashboardMount">
+    <div id="dashboard" class="ro-dashboard"></div>
+  </div>
+  <div class="panel" id="lapTablePanel">
+    <h3>Completed laps</h3>
+    <table id="lapTable"><thead><tr><th>Lap</th><th>Time</th><th>Delta to best</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/geo.js"></script>
+<script src="js/db.js"></script>
+<script src="js/room.js"></script>
+<script src="js/widgets.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/dashboard-toolbar.js"></script>
+<script src="js/recorder.js"></script>
+</body>
+</html>
